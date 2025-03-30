@@ -16,8 +16,14 @@ COPY . .
 # Build the Svelte application
 RUN npm run build
 
-# Expose the port the app runs on
-EXPOSE 4173
+# Use the official Nginx image as the base image
+FROM nginx:alpine
 
-# Start the application
-CMD ["npm", "run", "preview"]
+# Copy the built Svelte application to the Nginx HTML directory
+COPY --from=0 /app/dist /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
