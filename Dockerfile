@@ -1,26 +1,23 @@
-FROM node:18-alpine AS builder
+# Use the official Node.js image as the base image
+FROM node:18
 
-# Set working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and install dependencies
-COPY package.json package-lock.json ./
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the application
+# Copy the rest of the application code to the working directory
 COPY . .
 
-# Build the app
+# Build the Svelte application
 RUN npm run build
 
-# Use a lightweight web server for production
-FROM nginx:alpine
+# Expose the port the app runs on
+EXPOSE 4173
 
-# Copy build files to nginx html directory
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Expose port 80
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start the application
+CMD ["npm", "run", "preview"]
