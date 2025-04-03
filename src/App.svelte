@@ -23,12 +23,12 @@
     },
     {
       name: RouteName.Admin,
-      path: `/${RouteName.Admin}`,
+      path: `/admin`,
       component: AdminComponent
     },
     {
       name: RouteName.ThankYou,
-      path: `/${RouteName.ThankYou}`,
+      path: `/thankyou`,
       component: ThankYouComponent
     },
   ] as const;
